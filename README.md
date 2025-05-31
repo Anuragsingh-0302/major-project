@@ -1,18 +1,72 @@
-# buildmart
+# DeptHub -> 🎓 Department Management System (major-project)
 
-A code repo of my major project.
+A MERN stack app to manage student-teacher communication, attendance, and academic coordination in a department.
 
 ---
 
-# React + Vite
+## 👥 User Roles
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- **Student**:  
+  - View and edit profile  
+  - Download and share notes  
+  - Communicate with teachers  
+  - View notifications and events
 
-Currently, two official plugins are available:
+- **Teacher**:  
+  - Upload notes (PDF)  
+  - Mark attendance for students  
+  - Communicate with students and HOD  
+  - View events and notifications
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **HOD**:  
+  - Add/manage teachers and students  
+  - Assign teachers to classes  
+  - Track attendance  
+  - Create events and notifications  
+  - Communicate with teachers and students
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🧱 Tech Stack
+
+- **Frontend**: React + Vite + Tailwind CSS  
+- **Backend**: Node.js + Express  
+- **Database**: MongoDB  
+- **Authentication**: JWT + bcrypt  
+- **File Uploads**: Multer  
+- **State Management**: Context API / Custom Hooks  
+- **Others**: dotenv, cors, mongoose
+
+---
+
+## 📁 Folder Structure
+ 
+ major-project/
+├── public/
+├── src/
+│ ├── assets/
+│ ├── components/
+│ ├── context/
+│ ├── hooks/
+│ ├── layouts/
+│ ├── pages/
+│ ├── routes/
+│ ├── utils/
+│ ├── App.jsx
+│ ├── main.jsx
+│ └── index.css
+├── server/
+│ ├── config/
+│ ├── controllers/
+│ ├── middlewares/
+│ ├── models/
+│ ├── routes/
+│ ├── uploads/
+│ ├── server.js
+│ └── .env
+├── .gitignore
+├── package.json
+├── vite.config.js
+├── README.md
+
+> 💡 This project is being built as part of my MCA major project submission. Contributions welcome!
