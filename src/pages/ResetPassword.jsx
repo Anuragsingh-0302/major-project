@@ -4,9 +4,10 @@ import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { motion } from "framer-motion";
 
 const ResetPassword = () => {
-  const { role, token } = useParams(); // student ya teacher
+  const { role, token } = useParams();
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [loading, setLoading] = useState(false);
@@ -37,8 +38,11 @@ const ResetPassword = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-300 px-4">
-      <form
+      <motion.form
         onSubmit={handleReset}
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
         className="max-w-lg w-full bg-white rounded-lg shadow-md p-10"
       >
         <h1 className="text-3xl font-extrabold text-gray-900 mb-6 text-center">
@@ -62,14 +66,16 @@ const ResetPassword = () => {
           required
         />
 
-        <button
+        <motion.button
           type="submit"
           disabled={loading}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           className="w-full bg-black text-white font-semibold py-3 rounded-full text-xl hover:bg-gray-800 transition"
         >
           {loading ? "Resetting..." : "Reset Password"}
-        </button>
-      </form>
+        </motion.button>
+      </motion.form>
     </div>
   );
 };

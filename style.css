@@ -13,3 +13,7 @@ body{
 .rotate-y-45 {
     transform: rotateY(45deg);
 }
+
+.custom-height {
+  height: calc(100vh - 112px);
+}

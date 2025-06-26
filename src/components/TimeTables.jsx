@@ -1,11 +1,12 @@
 // src/components/TimeTables.jsx
 
-
-import React, { useState , useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { BiAlarmAdd } from "react-icons/bi";
 import ClassTimeTable from "./timetables/ClassTimeTable";
 import ExamTimeTable from "./timetables/ExamTimeTable";
 import TimeTableFormModal from "./timetables/TimeTableFormModal";
+import { Helmet } from "react-helmet";
+import { motion } from "framer-motion";
 
 const TimeTables = () => {
   const [activeComponent, setActiveComponent] = useState("Class Time Tables");
@@ -14,7 +15,7 @@ const TimeTables = () => {
 
   const user = JSON.parse(localStorage.getItem("user"));
 
- useEffect(() => {
+  useEffect(() => {
     document.title = "DeptHub - Time Tables";
   }, []);
 
@@ -27,53 +28,64 @@ const TimeTables = () => {
   };
 
   return (
-    <div className="timetables w-full min-h-[90vh] relative">
-      <div className="timetablesnav flex justify-between p-3 bg-slate-700 text-white">
-        <div
-          className={`text-center w-1/2 cursor-pointer border-r ${
-            activeComponent === "Class Time Tables" && "font-bold"
-          }`}
-          onClick={() => handleComponentChange("Class Time Tables")}
-        >
-          Class Time Table
-        </div>
-        <div
-          className={`text-center w-1/2 cursor-pointer border-l ${
-            activeComponent === "Exam Time Tables" && "font-bold"
-          }`}
-          onClick={() => handleComponentChange("Exam Time Tables")}
-        >
-          Exam Time Table
-        </div>
-      </div>
+    <>
+      <Helmet>
+        <title>Time Tables - DeptHub</title>
+      </Helmet>
 
-      <div className="timetablesbody w-full">
-        {activeComponent === "Class Time Tables" && (
-          <ClassTimeTable key={refreshKey} />
-        )}
-        {activeComponent === "Exam Time Tables" && (
-          <ExamTimeTable key={refreshKey} />
-        )}
-      </div>
-
-      {user?.role === "hod" && (
-        <div className="addtimetable fixed bottom-8 right-4">
-          <button
-            className="p-4 rounded-full bg-blue-600 text-white text-4xl"
-            onClick={() => setShowModal(true)}
+      <motion.div
+        className="timetables w-full min-h-[90vh] relative"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+      >
+        <div className="timetablesnav flex justify-between p-3 bg-slate-700 text-white">
+          <div
+            className={`text-center w-1/2 cursor-pointer border-r ${
+              activeComponent === "Class Time Tables" && "font-bold"
+            }`}
+            onClick={() => handleComponentChange("Class Time Tables")}
           >
-            <BiAlarmAdd />
-          </button>
+            Class Time Table
+          </div>
+          <div
+            className={`text-center w-1/2 cursor-pointer border-l ${
+              activeComponent === "Exam Time Tables" && "font-bold"
+            }`}
+            onClick={() => handleComponentChange("Exam Time Tables")}
+          >
+            Exam Time Table
+          </div>
         </div>
-      )}
 
-      {showModal && (
-        <TimeTableFormModal
-          onClose={() => setShowModal(false)}
-          onUpload={handleUpload}
-        />
-      )}
-    </div>
+        <div className="timetablesbody w-full  p-2">
+          {activeComponent === "Class Time Tables" && (
+            <ClassTimeTable key={refreshKey} />
+          )}
+          {activeComponent === "Exam Time Tables" && (
+            <ExamTimeTable key={refreshKey} />
+          )}
+        </div>
+
+        {user?.role === "hod" && (
+          <div className="addtimetable fixed bottom-15 right-8">
+            <button
+              className="p-2 rounded-full bg-blue-600 text-white text-4xl"
+              onClick={() => setShowModal(true)}
+            >
+              <BiAlarmAdd />
+            </button>
+          </div>
+        )}
+
+        {showModal && (
+          <TimeTableFormModal
+            onClose={() => setShowModal(false)}
+            onUpload={handleUpload}
+          />
+        )}
+      </motion.div>
+    </>
   );
 };
 

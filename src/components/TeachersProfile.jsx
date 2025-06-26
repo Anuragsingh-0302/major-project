@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Card1 from "./Card1";
+import { motion } from "framer-motion";
+import { Helmet } from "react-helmet";
 
 const TeachersProfile = () => {
   const [profiles, setProfiles] = useState([]);
@@ -19,15 +21,27 @@ const TeachersProfile = () => {
   };
 
   useEffect(() => {
-    fetchData(); // 🔁 called on load
+    fetchData();
   }, []);
 
   return (
-    <div className="TeachersProfile grid  lg:grid-cols-2 gap-[50px] px-10 py-4 ">
-      {profiles.map((user) => (
-        <Card1 key={user._id} user={user} fetchProfiles={fetchData} /> // ✅ passed here
-      ))}
-    </div>
+    <>
+      <Helmet>
+        <title>Teachers & Librarians - DeptHub</title>
+        <meta name="description" content="View all teacher and librarian profiles in DeptHub." />
+      </Helmet>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="TeachersProfile grid lg:grid-cols-2 gap-[50px] px-10 py-4"
+      >
+        {profiles.map((user) => (
+          <Card1 key={user._id} user={user} fetchProfiles={fetchData} />
+        ))}
+      </motion.div>
+    </>
   );
 };
 

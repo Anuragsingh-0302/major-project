@@ -1,12 +1,13 @@
 // src/components/Events.jsx
 
-// src/components/Events.jsx
-
 import React, { useEffect, useState } from "react";
 import Card4 from "./Card4";
 import Card5 from "./Card5";
 import CreateEventModal from "./CreateEventModal";
 import axios from "axios";
+import { Helmet } from "react-helmet";
+import { motion } from "framer-motion";
+import { FaDeleteLeft } from "react-icons/fa6";
 
 const Events = () => {
   const [events, setEvents] = useState([]);
@@ -14,6 +15,7 @@ const Events = () => {
   const [showParticipantsForEventId, setShowParticipantsForEventId] =
     useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
 
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -36,22 +38,37 @@ const Events = () => {
     fetchEvents();
   }, []);
 
-  const handleShowParticipants = (participants, eventId) => {
+  const handleShowParticipants = async (participants, eventId) => {
     setShowParticipantsForEventId(eventId);
-    setSelectedParticipants(participants);
+    setShowDialog(true); // Show dialog when participants are fetched
+
+    try {
+      const updatedParticipants = await Promise.all(
+        participants.map(async (p) => {
+          const res = await axios.get(
+            `http://localhost:5000/api/student/by-enrollment/${p.enrollment}`,
+            {
+              headers: { Authorization: `Bearer ${user.token}` },
+            }
+          );
+          return res.data.student;
+        })
+      );
+      setSelectedParticipants(updatedParticipants);
+    } catch (error) {
+      console.error("Error fetching updated participants:", error);
+    }
   };
 
   const handleDeleteParticipant = async (participant, eventId) => {
     try {
-      const res = await axios.delete(
+      await axios.delete(
         `http://localhost:5000/api/event/events/${eventId}/participants/${participant._id}`,
         {
           headers: { Authorization: `Bearer ${user.token}` },
         }
       );
-      console.log(res.data);
 
-      // UI update
       const updatedEvents = events.map((event) => {
         if (event._id === eventId) {
           return {
@@ -74,69 +91,88 @@ const Events = () => {
   };
 
   return (
-    <div className="events flex flex-col gap-1 w-[100%]">
-      <div className="eventnavbar w-[100%] flex justify-center items-center p-3 rounded-t-2xl bg-slate-700 text-white font-semibold text-xl">
-        <div className="eventslist w-1/2 text-center">Events</div>
-        <div className="participantslist w-1/2 text-center">Participants</div>
-      </div>
+    <>
+      <Helmet>
+        <title>Events - DeptHub</title>
+      </Helmet>
 
-      <div className="details w-[100%] flex">
-        {/* Events Section */}
-        <div className="w-1/2 bg-slate-300 p-2 flex flex-col gap-2 items-center  border-2 border-white">
-          {events.map((event) => (
-            <Card4
-              key={event._id}
-              event={event}
-              user={user}
-              onShowParticipants={handleShowParticipants}
-              setEvents={setEvents}
-              onEventUpdated={fetchEvents}
-            />
-          ))}
-
-          {/* HOD/Teacher Create Button */}
-          {(user.role === "teacher" || user.role === "hod") && (
-            <button
-              onClick={() => setShowModal(true)}
-              className="bg-green-500 hover:bg-green-700 text-white px-4 py-2 rounded-full mt-2 font-semibold"
-            >
-              Create Event
-            </button>
-          )}
+      <motion.div
+        className="events flex flex-col gap-1 w-full"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="eventnavbar w-full flex justify-between items-center p-3 bg-slate-700 text-white font-semibold text-xl">
+          <div className="eventslist w-full text-center">Events</div>
         </div>
 
-        {/* Participants Section */}
-        <div className="w-1/2 bg-slate-300 p-2 py-4 flex flex-col gap-2  border-2 border-white">
-          {selectedParticipants.map((participant, index) => (
-            <Card5
-              key={index}
-              participant={participant}
-              userRole={user.role}
-              title={
-                events.find((e) => e._id === showParticipantsForEventId)?.title
-              }
-              eventId={
-                events.find((e) => e._id === showParticipantsForEventId)
-                  ?.eventId
-              }
-              onDelete={() =>
-                handleDeleteParticipant(participant, showParticipantsForEventId)
-              }
-            />
-          ))}
-        </div>
-      </div>
+        <div className="details w-full flex">
+          {/* Events Section */}
+          <div className="w-full bg-slate-300 p-2 flex flex-col gap-2 items-center border-2 border-white">
+            <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-3 gap-2 w-full">
+              {events.map((event) => (
+                <Card4
+                  key={event._id}
+                  event={event}
+                  user={user}
+                  onShowParticipants={handleShowParticipants}
+                  setEvents={setEvents}
+                  onEventUpdated={fetchEvents}
+                />
+              ))}
+            </div>
 
-      {/* Modal for Create Event */}
-      {showModal && (
-        <CreateEventModal
-          setShowModal={setShowModal}
-          setEvents={setEvents}
-          user={user}
-          onEventCreated={fetchEvents} // ✅ Add this line
-        />
-      )}
-    </div>
+            {(user.role === "teacher" || user.role === "hod") && (
+              <button
+                onClick={() => setShowModal(true)}
+                className="bg-green-500 hover:bg-green-700 text-white px-4 py-2 rounded-full mt-2 font-semibold"
+              >
+                Create Event
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Participants Dialog */}
+        {showDialog && (
+          <div className="fixed inset-0 flex items-center backdrop-blur-md justify-center z-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 md:w-3/5">
+              <div className="flex justify-between items-center">
+                <h2 className="text-xl font-semibold">Participants</h2>
+                <button onClick={() => setShowDialog(false)} className="text-red-500 text-2xl">
+                  <FaDeleteLeft />
+                </button>
+              </div>
+              <p className="mt-3"><b>Event ID: </b>{showParticipantsForEventId}</p>
+              <p className="mt-1">
+                <b>Event Title: </b>{events.find((e) => e._id === showParticipantsForEventId)?.title}
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2  gap-4 mt-4">
+                {selectedParticipants.map((participant) => (
+                  <Card5
+                    key={participant._id}
+                    participant={participant}
+                    userRole={user.role}
+                    onDelete={() =>
+                      handleDeleteParticipant(participant, showParticipantsForEventId)
+                    }
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {showModal && (
+          <CreateEventModal
+            setShowModal={setShowModal}
+            setEvents={setEvents}
+            user={user}
+            onEventCreated={fetchEvents}
+          />
+        )}
+      </motion.div>
+    </>
   );
 };
 

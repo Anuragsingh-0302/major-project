@@ -1,41 +1,20 @@
 // src/components/TeacherRegisterForm.jsx
 
-import React, { useState , useEffect } from "react";
-import { showSuccess , showError } from "../utils/toastUtils";
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { showSuccess, showError } from "../utils/toastUtils";
+import { Helmet } from "react-helmet";
+import { motion } from "framer-motion";
 
 const TeacherRegisterForm = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    teacherId: "",
-    gender: "",
-    aadhaar: "",
-    department: [],
-    subject: [],
-    role: "teacher",
-  });
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
 
-  useEffect(() => {
-    document.title = "Teacher Registration - DeptHub";
-  }, []);
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleCheckboxChange = (e, field) => {
-    const value = e.target.value;
-    const isChecked = e.target.checked;
-    const updated = isChecked
-      ? [...formData[field], value]
-      : formData[field].filter((item) => item !== value);
-    setFormData({ ...formData, [field]: updated });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const onSubmit = async (formData) => {
     try {
       const token = localStorage.getItem("token");
 
@@ -55,17 +34,7 @@ const TeacherRegisterForm = () => {
 
       if (res.ok) {
         showSuccess("✅ Teacher registered successfully!");
-        setFormData({
-          name: "",
-          email: "",
-          phone: "",
-          teacherId: "",
-          gender: "",
-          aadhaar: "",
-          department: [],
-          subject: [],
-          role: "teacher",
-        });
+        reset(); // clear form
       } else {
         showError(result.message || "Registration failed");
       }
@@ -75,134 +44,111 @@ const TeacherRegisterForm = () => {
     }
   };
 
+  useEffect(() => {
+    document.title = "Teacher Registration - DeptHub";
+  }, []);
+
+  const subjects = ["DBMS", "OS", "CN", "AI", "DSA"];
+  const departments = ["MCA", "BCA"];
+
   return (
-    <div className="w-full max-w-3xl mx-auto p-8 bg-white shadow-lg rounded-lg mt-10">
-      <h2 className="text-2xl font-bold text-center text-blue-800 mb-6">
-        Teacher Registration
-      </h2>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <input
-            type="text"
-            name="name"
-            placeholder="Full Name"
-            required
-            className="border p-3 rounded"
-            value={formData.name}
-            onChange={handleChange}
-          />
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            required
-            className="border p-3 rounded"
-            value={formData.email}
-            onChange={handleChange}
-          />
-          <input
-            type="text"
-            name="phone"
-            placeholder="Phone"
-            required
-            className="border p-3 rounded"
-            value={formData.phone}
-            onChange={handleChange}
-          />
-          <input
-            type="text"
-            name="teacherId"
-            placeholder="Teacher ID"
-            required
-            className="border p-3 rounded"
-            value={formData.teacherId}
-            onChange={handleChange}
-          />
-          <input
-            type="text"
-            name="aadhaar"
-            placeholder="Aadhaar Number"
-            required
-            className="border p-3 rounded"
-            value={formData.aadhaar}
-            onChange={handleChange}
-          />
-          <select
-            name="gender"
-            required
-            className="border p-3 rounded"
-            value={formData.gender}
-            onChange={handleChange}
-          >
-            <option value="">Select Gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-          </select>
-        </div>
+    <>
+      <Helmet>
+        <title>Teacher Registration - DeptHub</title>
+      </Helmet>
 
-        {/* Subjects */}
-        <div>
-          <label className="block font-semibold mb-2">Subjects</label>
-          <div className="grid grid-cols-2 gap-3">
-            {["DBMS", "OS", "CN", "AI", "DSA"].map((subj) => (
-              <label key={subj} className="flex items-center gap-2">
-                <input
-                  name="subject"
-                  type="checkbox"
-                  value={subj}
-                  checked={formData.subject.includes(subj)}
-                  onChange={(e) => handleCheckboxChange(e, "subject")}
-                />
-                {subj}
-              </label>
-            ))}
+      <motion.div
+        className="w-full max-w-3xl mx-auto p-8 bg-white shadow-lg rounded-lg mt-10"
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <h2 className="text-2xl font-bold text-center text-blue-800 mb-6">
+          Teacher Registration
+        </h2>
+
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <InputField name="name" label="Full Name" register={register} errors={errors} />
+            <InputField name="email" label="Email" register={register} errors={errors} type="email" />
+            <InputField name="phone" label="Phone" register={register} errors={errors} />
+            <InputField name="teacherId" label="Teacher ID" register={register} errors={errors} />
+            <InputField name="aadhaar" label="Aadhaar Number" register={register} errors={errors} />
+
+            <div>
+              <select
+                {...register("gender", { required: "Gender is required" })}
+                className="border p-3 rounded w-full"
+              >
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+              {errors.gender && <p className="text-red-600 text-sm">{errors.gender.message}</p>}
+            </div>
           </div>
-        </div>
 
-        {/* Departments */}
-        <div>
-          <label className="block font-semibold mb-2">Departments</label>
-          <div className="grid grid-cols-2 gap-3">
-            {["MCA", "BCA"].map((dept) => (
-              <label key={dept} className="flex items-center gap-2">
-                <input
-                  name="department"
-                  type="checkbox"
-                  value={dept}
-                  checked={formData.department.includes(dept)}
-                  onChange={(e) => handleCheckboxChange(e, "department")}
-                />
-                {dept}
-              </label>
-            ))}
+          {/* Subjects */}
+          <div>
+            <label className="block font-semibold mb-2">Subjects</label>
+            <div className="grid grid-cols-2 gap-3">
+              {subjects.map((subj) => (
+                <label key={subj} className="flex items-center gap-2">
+                  <input type="checkbox" value={subj} {...register("subject")} />
+                  {subj}
+                </label>
+              ))}
+            </div>
           </div>
-        </div>
 
-        {/* Role (Fixed as teacher) */}
-        <div>
-          <label className="block font-semibold mb-2">Role</label>
-          <select
-            name="role"
-            className="border p-3 rounded w-full"
-            value={formData.role}
-            onChange={handleChange}
-            disabled
+          {/* Departments */}
+          <div>
+            <label className="block font-semibold mb-2">Departments</label>
+            <div className="grid grid-cols-2 gap-3">
+              {departments.map((dept) => (
+                <label key={dept} className="flex items-center gap-2">
+                  <input type="checkbox" value={dept} {...register("department")} />
+                  {dept}
+                </label>
+              ))}
+            </div>
+          </div>
+
+          {/* Role */}
+          <div>
+            <label className="block font-semibold mb-2">Role</label>
+            <select
+              {...register("role")}
+              className="border p-3 rounded w-full"
+            >
+              <option value="teacher">Teacher</option>
+              <option value="hod">HOD</option>
+              <option value="librarian">Librarian</option>
+            </select>
+          </div>
+
+          <button
+            type="submit"
+            className="bg-green-600 text-white py-3 rounded hover:bg-green-700"
           >
-            <option value="teacher">Teacher</option>
-            <option value="hod">HOD</option>
-            <option value="librarian">Librarian</option>
-          </select>
-        </div>
-
-        <button
-          type="submit"
-          className="bg-green-600 text-white py-3 rounded hover:bg-green-700"
-        >
-          Register Teacher
-        </button>
-      </form>
-    </div>
+            Register Teacher
+          </button>
+        </form>
+      </motion.div>
+    </>
   );
 };
+
+const InputField = ({ name, label, register, errors, type = "text" }) => (
+  <div>
+    <input
+      type={type}
+      placeholder={label}
+      {...register(name, { required: `${label} is required` })}
+      className="border p-3 rounded w-full"
+    />
+    {errors[name] && <p className="text-red-600 text-sm">{errors[name].message}</p>}
+  </div>
+);
 
 export default TeacherRegisterForm;

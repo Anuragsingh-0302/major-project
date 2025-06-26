@@ -27,7 +27,7 @@ const ExamTimeTable = () => {
   }, []);
 
   return (
-    <div className="examTimetables grid grid-cols-3 gap-10 p-4 bg-slate-300">
+    <div className="examTimetables grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-2 bg-slate-300">
       {examTimetables.length > 0 ? (
         examTimetables.map((item) => (
           <Card6 key={item._id} data={item} isHOD={isHOD} />

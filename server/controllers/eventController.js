@@ -1,4 +1,6 @@
 // controllers/eventController.js
+
+
 import Event from "../models/EventInfo.js";
 import Student from "../models/StudentInfo.js";
 
@@ -106,5 +108,31 @@ export const deleteParticipant = async (req, res) => {
     res
       .status(500)
       .json({ success: false, message: "Failed to remove participant" });
+  }
+};
+
+
+export const updateEvent = async (req, res) => {
+  try {
+    console.log(req.body);
+    console.log(req.params);
+    const { id } = req.params;
+    const { title, description, link, lastDate } = req.body;
+
+    const event = await Event.findById(id);
+    if (!event)
+      return res
+        .status(404)
+        .json({ success: false, message: "Event not found" });
+
+    event.title = title;
+    event.description = description;
+    event.link = link;
+    event.lastDate = lastDate;
+    await event.save();
+    res.status(200).json({ success: true, message: "Event updated" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Failed to update event" });
   }
 };

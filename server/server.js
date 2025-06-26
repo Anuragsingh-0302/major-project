@@ -69,6 +69,9 @@ import attendanceRoutes from "./routes/attendanceRoutes.js";
 import bookRoutes from "./routes/bookRoutes.js";
 import issuedBookRoutes from "./routes/bookIssuedRoutes.js";
 import chatRoutes from "./routes/chatRoutes.js";
+import contactRoutes from "./routes/contactRoutes.js";
+import notificationRoutes from "./routes/notificationRoutes.js";
+
 
 app.use("/api/student", studentRoutes);
 app.use("/api/auth", authRoutes);
@@ -83,6 +86,10 @@ app.use("/api/attendance", attendanceRoutes);
 app.use("/api/library-book", bookRoutes);
 app.use("/api/library-issued", issuedBookRoutes);
 app.use("/api/chat", chatRoutes);
+app.use("/api/contact", contactRoutes);
+app.use("/api/notifications", notificationRoutes);
+
+
 
 // Error handler
 app.use((err, req, res, next) => {

@@ -14,7 +14,8 @@ export const registerTeacherByHOD = async (req, res) => {
       gender,
       aadhaar,
       department,
-      subject
+      subject,
+      role
     } = req.body;
 
     const existing = await TeacherInfo.findOne({ teacherId });
@@ -31,6 +32,7 @@ export const registerTeacherByHOD = async (req, res) => {
       aadhaar,
       department,
       subject,
+      role,
       createdBy: 'hod',
       verified: true
       // username and password will be added later by teacher

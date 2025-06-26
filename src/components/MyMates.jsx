@@ -1,9 +1,10 @@
 // src/components/MyMates.jsx
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Card3 from "./Card3";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
+import { motion } from "framer-motion";
 
 const MyMates = () => {
   const [mates, setMates] = useState([]);
@@ -18,7 +19,6 @@ const MyMates = () => {
             Authorization: `Bearer ${user.token}`,
           },
         });
-        console.log(res.data);
         setMates(res.data.mates);
       } catch (err) {
         console.error("Error fetching mates:", err);
@@ -28,11 +28,22 @@ const MyMates = () => {
   }, []);
 
   return (
-    <div className="myMates grid grid-cols-2  bg-slate-300  p-2 gap-3">
-      {mates.map((user) => (
-        <Card3 key={user._id} user={user} />
-      ))}
-    </div>
+    <>
+      <Helmet>
+        <title>My Mates - DeptHub</title>
+      </Helmet>
+
+      <motion.div
+        className="myMates grid grid-cols-1 md:grid-cols-2 bg-slate-300 p-2 gap-3"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        {mates.map((user) => (
+          <Card3 key={user._id} user={user} />
+        ))}
+      </motion.div>
+    </>
   );
 };
 

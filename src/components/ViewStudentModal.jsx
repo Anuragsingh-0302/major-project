@@ -1,11 +1,15 @@
 import React from "react";
+import { motion } from "framer-motion";
 
 const ViewStudentModal = ({ students, onClose, onVerify, onViewProfile }) => {
-  // const [selected, setSelected] = useState(null);
-
   return (
     <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-      <div className="bg-white w-full max-w-4xl rounded-lg p-6 overflow-y-auto max-h-[90vh]">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9, y: -30 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+        className="bg-white w-full max-w-4xl rounded-lg p-6 overflow-y-auto max-h-[90vh]"
+      >
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold text-blue-700">
             Pending Student Requests
@@ -20,14 +24,23 @@ const ViewStudentModal = ({ students, onClose, onVerify, onViewProfile }) => {
         ) : (
           <div className="space-y-4">
             {students.map((student) => (
-              <div
+              <motion.div
                 key={student._id}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.25 }}
                 className="border border-gray-300 rounded-lg p-4 flex justify-between items-center"
               >
                 <div>
-                  <p><strong>Name:</strong> {student.name}</p>
-                  <p><strong>Enrollment:</strong> {student.enrollment}</p>
-                  <p><strong>Class:</strong> {student.class}</p>
+                  <p>
+                    <strong>Name:</strong> {student.name}
+                  </p>
+                  <p>
+                    <strong>Enrollment:</strong> {student.enrollment}
+                  </p>
+                  <p>
+                    <strong>Class:</strong> {student.class}
+                  </p>
                 </div>
                 <div className="flex gap-3">
                   <button
@@ -43,11 +56,11 @@ const ViewStudentModal = ({ students, onClose, onVerify, onViewProfile }) => {
                     Verify
                   </button>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         )}
-      </div>
+      </motion.div>
     </div>
   );
 };

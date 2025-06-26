@@ -31,10 +31,10 @@ const Card2 = ({ user }) => {
   }, []);
 
   return (
-    <div className="min-h-[90vh] w-full flex justify-center items-center p-4 bg-gradient-to-br from-[#e0e7ff] to-[#f8fafc]">
-      <div className="w-full max-w-5xl bg-white/80 backdrop-blur-md shadow-2xl rounded-3xl flex flex-col md:flex-row overflow-hidden border border-gray-200 transition-all duration-300">
+    <div className="min-h-[90vh] w-full flex  justify-center items-center p-4 bg-gradient-to-br from-[#e0e7ff] to-[#f8fafc] mt-[100px]     md:mt-[150px] lg:mt-0">
+      <div className="w-full max-w-5xl bg-white/80 backdrop-blur-md shadow-2xl rounded-3xl flex flex-col lg:flex-row overflow-hidden border border-gray-200 transition-all duration-300">
         {/* Left Section */}
-        <div className="md:w-2/5 w-full p-6 flex flex-col items-center justify-center gap-6 bg-white/70 border-b md:border-b-0 md:border-r border-gray-300">
+        <div className="lg:w-2/5 w-full p-6 flex flex-col items-center justify-center gap-6 bg-white/70 border-b md:border-b-0 md:border-r border-gray-300">
           <Tilt glareEnable={true} glareMaxOpacity={0.2} scale={1.05} transitionSpeed={250}>
             <img
               src={imageUrl}
@@ -48,7 +48,7 @@ const Card2 = ({ user }) => {
         </div>
 
         {/* Right Section */}
-        <div className="md:w-3/5 w-full bg-gradient-to-br from-slate-100 to-slate-300 p-6 flex flex-col justify-between gap-5">
+        <div className="lg:w-3/5 w-full bg-gradient-to-br from-slate-100 to-slate-300 p-6 flex flex-col justify-between gap-5">
           <div className="space-y-4">
             {[user.name, user.email,
               Array.isArray(user.subject) ? user.subject.join(", ") : user.subject,

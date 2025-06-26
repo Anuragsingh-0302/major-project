@@ -214,3 +214,18 @@ export const getFilteredStudents = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+export const getStudentByEnrollment = async (req, res) => {
+  try {
+    const student = await StudentInfo.findOne({ enrollment: req.params.enroll }).select("-password");
+    if (!student) {
+      return res.status(404).json({ success: false, message: "Student not found" });
+    }
+
+    res.status(200).json({ success: true, student });
+  } catch (err) {
+    console.error("Error in getStudentByEnrollment:", err);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+

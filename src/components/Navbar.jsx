@@ -16,7 +16,7 @@ const Navbar = () => {
     : defaultMale;
 
   return (
-    <div className="w-full h-[70px] px-6 bg-slate-500 border-b shadow-sm flex items-center justify-between sticky top-0 z-50">
+    <div className="w-full min-h-[70px] px-6 bg-slate-500 border-b shadow-sm flex  items-center justify-center sm:justify-between sticky top-0 z-50">
       {/* Left Logo */}
       <div className="flex items-center gap-3">
         <img src={logo} alt="logo" className="w-[40px] h-[40px] rounded-full shadow-sm border-2" />
@@ -27,12 +27,12 @@ const Navbar = () => {
       </div>
 
       {/* Center Role Info */}
-      <div className="text-lg  text-white font-bold tracking-wide uppercase">
+      <div className="text-lg hidden sm:block text-white font-bold tracking-wide uppercase">
         {userProfile?.role} Dashboard
       </div>
 
       {/* Right Profile */}
-      <div className="flex items-center gap-4">
+      <div className="md:flex items-center gap-4 hidden ">
         <span className="text-md font-semibold text-white ">{name}</span>
         <img
           src={profileImage}

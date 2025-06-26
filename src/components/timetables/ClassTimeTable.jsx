@@ -31,7 +31,7 @@ const ClassTimeTable = () => {
   }, []);
 
   return (
-    <div className="classTimetables grid grid-cols-3 gap-10 p-4 bg-slate-300">
+    <div className="classTimetables grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-2 bg-slate-300">
       {Array.isArray(classTimetables) && classTimetables.length > 0 ? (
         classTimetables.map((item) => (
           <Card6 key={item._id} data={item} isHOD={isHOD} />

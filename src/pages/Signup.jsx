@@ -1,23 +1,22 @@
 // src/pages/Signup.jsx
+
+
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { SiHomeadvisor } from "react-icons/si";
-import { showSuccess } from "../utils/toastUtils.js";
+import { showSuccess , showError } from "../utils/toastUtils.js";
+import { motion } from "framer-motion"; // 🎯 added
 
 const Signup = () => {
   const [id, setId] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [profileImage, setProfileImage] = useState(null); // State for the profile image
+  const [profileImage, setProfileImage] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
   const [role, setRole] = useState("");
-
-  useEffect(() => {
-    document.title = "DeptHub - Sign Up";
-  }, []);
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.title = "DeptHub - Sign Up";
@@ -31,9 +30,10 @@ const Signup = () => {
       setError("Please fill in all fields and upload a profile photo.");
       return;
     }
+
     setLoading(true);
 
-    const formData = new FormData(); // Create a FormData object
+    const formData = new FormData();
     if (role === "student") {
       formData.append("enrollment", id);
     } else {
@@ -42,62 +42,65 @@ const Signup = () => {
 
     formData.append("username", username);
     formData.append("password", password);
-    formData.append("profileImage", profileImage); // Append the profile image
+    formData.append("profileImage", profileImage);
 
     try {
-      // Attempt to sign up as a student
       let response = await axios.post(
         "http://localhost:5000/api/auth/student-signup",
         formData,
-        { headers: { "Content-Type": "multipart/form-data" } } // Set the content type
+        { headers: { "Content-Type": "multipart/form-data" } }
       );
       if (response.data.success) {
-        navigate("/login"); // Redirect to login after successful signup
+        navigate("/login");
       } else {
         setError("Signup failed. Please check your ID and try again.");
       }
     } catch (error) {
-      // If student signup fails, attempt to sign up as a teacher
       try {
         let response = await axios.post(
           "http://localhost:5000/api/teacher/signup",
           formData,
-          { headers: { "Content-Type": "multipart/form-data" } } // Set the content type
+          { headers: { "Content-Type": "multipart/form-data" } }
         );
         if (response.data.success) {
-          navigate("/login"); // Redirect to login after successful signup
+          navigate("/login");
         } else {
           setError("Signup failed. Please check your ID and try again.");
         }
       } catch (error) {
         console.log(error);
-        setError("Error signing up. Please try again.");
+        setError("Signup failed. Please check your ID and try again.");
+        showError("Signup failed. Please check your ID and try again.");
       }
-      console.log(error);
+      console.log("Error signing up:", error);
+      
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen backdrop-blur-md bg-gray-300">
-      <form
+    <div className="flex flex-col items-center justify-center min-h-screen backdrop-blur-md bg-gray-300 py-[100px] md:py-0">
+      {/* 🎯 motion wrap */}
+      <motion.form
         onSubmit={handleSubmit}
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
         className="max-w-lg w-full bg-white rounded-lg shadow-md p-10"
         aria-label="Signup form"
       >
         <h1 className="text-4xl font-extrabold text-gray-900 mb-6 text-center">
           Sign Up
         </h1>
+
         {error && (
-          <p
-            role="alert"
-            className="mb-4 text-red-600 text-center font-semibold"
-          >
+          <p role="alert" className="mb-4 text-red-600 text-center font-semibold">
             {error}
           </p>
         )}
 
+        {/* Fields */}
         <label className="block mb-2 text-gray-700 font-medium" htmlFor="id">
           ID (Enrollment or Teacher ID)
         </label>
@@ -109,8 +112,8 @@ const Signup = () => {
           value={id}
           onChange={(e) => setId(e.target.value)}
           required
-          aria-required="true"
         />
+
         <label className="block mb-2 text-gray-700 font-medium" htmlFor="role">
           You are signing up as
         </label>
@@ -127,10 +130,8 @@ const Signup = () => {
           <option value="hod">HOD</option>
           <option value="librarian">Librarian</option>
         </select>
-        <label
-          className="block mb-2 text-gray-700 font-medium"
-          htmlFor="username"
-        >
+
+        <label className="block mb-2 text-gray-700 font-medium" htmlFor="username">
           Username
         </label>
         <input
@@ -141,12 +142,9 @@ const Signup = () => {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
-          aria-required="true"
         />
-        <label
-          className="block mb-2 text-gray-700 font-medium"
-          htmlFor="password"
-        >
+
+        <label className="block mb-2 text-gray-700 font-medium" htmlFor="password">
           Password
         </label>
         <input
@@ -157,33 +155,30 @@ const Signup = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          aria-required="true"
         />
 
-        <label
-          className="block mb-2 text-gray-700 font-medium"
-          htmlFor="profileImage"
-        >
+        <label className="block mb-2 text-gray-700 font-medium" htmlFor="profileImage">
           Profile Photo
         </label>
         <input
           id="profileImage"
           type="file"
-          accept="image/*" // Accept only image files
+          accept="image/*"
           className="w-full rounded-full border border-gray-300 p-3 mb-6 focus:outline-none focus:ring-2 focus:ring-black"
-          onChange={(e) => setProfileImage(e.target.files[0])} // Set the selected file
+          onChange={(e) => setProfileImage(e.target.files[0])}
           required
-          aria-required="true"
         />
 
-        <button
+        {/* 🎯 Animated button */}
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           type="submit"
           disabled={loading}
           className="w-full bg-black text-white font-semibold py-3 rounded-full text-xl hover:bg-gray-800 transition"
-          aria-busy={loading}
         >
           {loading ? "Signing Up..." : "Sign Up"}
-        </button>
+        </motion.button>
 
         <div className="mt-6 text-center text-gray-600">
           Already have an account?{" "}
@@ -194,7 +189,8 @@ const Signup = () => {
             Log In
           </Link>
         </div>
-      </form>
+      </motion.form>
+
       <Link
         to="/"
         className="absolute top-5 left-5 transition-all hover:scale-110"

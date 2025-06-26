@@ -9,6 +9,7 @@ import {
   updateStudent,
   updateStudentProfile,
   deleteStudent,
+  getStudentByEnrollment,
 } from "../controllers/studentController.js";
 import verifyHODToken from "../middlewares/verifyHODToken.js";
 import verifyTeacherToken from "../middlewares/verifyTeacherToken.js";
@@ -31,5 +32,8 @@ router.patch("/updateStudentProfile/:id", verifyHODToken, upload.single("profile
 router.delete("/delete/:id", verifyHODToken, deleteStudent);
 
 router.get('/filter', verifyUserToken, getFilteredStudents);
+
+// 👇 New route to fetch student by enrollment
+router.get("/by-enrollment/:enroll", verifyUserToken, getStudentByEnrollment);
 
 export default router;

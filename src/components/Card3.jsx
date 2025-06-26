@@ -32,9 +32,9 @@ const Card3 = ({ user }) => {
 
   return (
     <>
-      <div className="myMates p-3 rounded-xl flex justify-center w-full min-h-[100px] transition-all border-2 border-white duration-300 bg-slate-600">
+      <div className="myMates p-3 rounded-xl flex sm:flex-row flex-col justify-center w-full min-h-[100px] transition-all border-2 border-white duration-300 bg-slate-600">
         {/* Profile */}
-        <div className="profile flex flex-col justify-center items-center gap-2 w-1/4">
+        <div className="profile flex flex-col justify-center items-center gap-2 w-full sm:w-1/4 mb-2">
           <Tilt
             glareEnable={true}
             glareMaxOpacity={0.0}
@@ -50,14 +50,14 @@ const Card3 = ({ user }) => {
         </div>
 
         {/* Details */}
-        <div className="details text-white border-x-4 border-slate-400 text-lg py-2 px-3 flex flex-col justify-start items-center gap-2 w-2/4">
+        <div className="details text-white border-x-0 sm:border-x-4 border-y-4 md:border-y-0 border-slate-400 text-lg py-2 px-3 flex flex-col justify-start items-center gap-2 w-full sm:w-2/4">
           <div className="name">{user.name || "N/A"}</div>
           <div className="class text-sm font-mono">{user.class || "N/A"}</div>
           <div className="enrollment text-sm font-mono">{user.enrollment || "N/A"}</div>
         </div>
 
         {/* Chat Button */}
-        <div className="chat flex justify-center items-center gap-2 w-1/4">
+        <div className="chat flex justify-center items-center gap-2 w-full sm:w-1/4">
           <div className="rounded-xl py-3 font-semibold w-full flex justify-center px-4">
             <button
               onClick={() => setIsChatOpen(true)}
