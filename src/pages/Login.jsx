@@ -85,7 +85,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-300 px-4 ">
+    <div className="flex items-center justify-center min-h-screen bg-slate-700 px-4 ">
       <motion.form
         onSubmit={handleSubmit}
         initial={{ opacity: 0, y: 40 }}
@@ -152,7 +152,7 @@ const Login = () => {
         to="/"
         className="absolute top-5 left-5 transition-all hover:scale-110"
       >
-        <SiHomeadvisor size={50} color="black" />
+        <SiHomeadvisor size={50} color="white" />
       </Link>
     </div>
   );

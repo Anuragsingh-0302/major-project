@@ -145,7 +145,7 @@ const MyProfile = () => {
               )}
             </p>
             <p className="text-lg font-semibold text-gray-700">
-              🎓 Role: {userProfile?.role || "N/A"}
+              🎓 Role: {userProfile?.role?.toUpperCase() || "N/A"}
             </p>
             <p className="text-lg font-semibold text-gray-700">
               📧 Email:{" "}

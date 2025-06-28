@@ -1,12 +1,14 @@
 // src/pages/Signup.jsx
 
 
+// src/pages/Signup.jsx
+
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { SiHomeadvisor } from "react-icons/si";
-import { showSuccess , showError } from "../utils/toastUtils.js";
-import { motion } from "framer-motion"; // 🎯 added
+import { showSuccess, showError } from "../utils/toastUtils.js";
+import { motion } from "framer-motion";
 
 const Signup = () => {
   const [id, setId] = useState("");
@@ -68,7 +70,7 @@ const Signup = () => {
           setError("Signup failed. Please check your ID and try again.");
         }
       } catch (error) {
-        console.log(error);
+        console.log("Error signing up:", error);
         setError("Signup failed. Please check your ID and try again.");
         showError("Signup failed. Please check your ID and try again.");
       }
@@ -80,8 +82,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen backdrop-blur-md bg-gray-300 py-[100px] md:py-0">
-      {/* 🎯 motion wrap */}
+    <div className="flex flex-col items-center justify-center min-h-screen backdrop-blur-md bg-slate-700 py-[100px] md:py-0">
       <motion.form
         onSubmit={handleSubmit}
         initial={{ opacity: 0, y: 50 }}
@@ -95,25 +96,15 @@ const Signup = () => {
         </h1>
 
         {error && (
-          <p role="alert" className="mb-4 text-red-600 text-center font-semibold">
+          <p
+            role="alert"
+            className="mb-4 text-red-600 text-center font-semibold"
+          >
             {error}
           </p>
         )}
 
-        {/* Fields */}
-        <label className="block mb-2 text-gray-700 font-medium" htmlFor="id">
-          ID (Enrollment or Teacher ID)
-        </label>
-        <input
-          id="id"
-          type="text"
-          className="w-full rounded-full border border-gray-300 p-3 mb-6 focus:outline-none focus:ring-2 focus:ring-black"
-          placeholder="Enter your ID"
-          value={id}
-          onChange={(e) => setId(e.target.value)}
-          required
-        />
-
+        {/* Role field */}
         <label className="block mb-2 text-gray-700 font-medium" htmlFor="role">
           You are signing up as
         </label>
@@ -131,7 +122,29 @@ const Signup = () => {
           <option value="librarian">Librarian</option>
         </select>
 
-        <label className="block mb-2 text-gray-700 font-medium" htmlFor="username">
+        {/* ID Field */}
+        <label className="block mb-2 text-gray-700 font-medium" htmlFor="id">
+          {role === "student"
+            ? "Enrollment"
+            : role === "teacher" || role === "hod" || role === "librarian"
+            ? "Teacher ID"
+            : "ID (Enrollment or Teacher ID)"}
+        </label>
+        <input
+          id="id"
+          type="text"
+          className="w-full rounded-full border border-gray-300 p-3 mb-6 focus:outline-none focus:ring-2 focus:ring-black"
+          placeholder="Enter your ID"
+          value={id}
+          onChange={(e) => setId(e.target.value)}
+          required
+        />
+
+        {/* Username */}
+        <label
+          className="block mb-2 text-gray-700 font-medium"
+          htmlFor="username"
+        >
           Username
         </label>
         <input
@@ -144,7 +157,11 @@ const Signup = () => {
           required
         />
 
-        <label className="block mb-2 text-gray-700 font-medium" htmlFor="password">
+        {/* Password */}
+        <label
+          className="block mb-2 text-gray-700 font-medium"
+          htmlFor="password"
+        >
           Password
         </label>
         <input
@@ -157,7 +174,11 @@ const Signup = () => {
           required
         />
 
-        <label className="block mb-2 text-gray-700 font-medium" htmlFor="profileImage">
+        {/* Profile Photo */}
+        <label
+          className="block mb-2 text-gray-700 font-medium"
+          htmlFor="profileImage"
+        >
           Profile Photo
         </label>
         <input
@@ -169,7 +190,7 @@ const Signup = () => {
           required
         />
 
-        {/* 🎯 Animated button */}
+        {/* Submit button */}
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -180,6 +201,7 @@ const Signup = () => {
           {loading ? "Signing Up..." : "Sign Up"}
         </motion.button>
 
+        {/* Already have account */}
         <div className="mt-6 text-center text-gray-600">
           Already have an account?{" "}
           <Link
@@ -191,11 +213,12 @@ const Signup = () => {
         </div>
       </motion.form>
 
+      {/* Home icon */}
       <Link
         to="/"
         className="absolute top-5 left-5 transition-all hover:scale-110"
       >
-        <SiHomeadvisor size={50} color="black" />
+        <SiHomeadvisor size={50} color="white" />
       </Link>
     </div>
   );
