@@ -1,10 +1,8 @@
-// src/components/cards/Card9.jsx
-
 import React from "react";
 import axios from "axios";
 import { FaAddressCard } from "react-icons/fa6";
 import { RiDeleteBin3Fill } from "react-icons/ri";
-import { showSuccess , showError } from "../../utils/toastUtils";
+import { showSuccess, showError } from "../../utils/toastUtils";
 
 const Card9 = ({ issuer, fetchIssuers }) => {
   const token = localStorage.getItem("token");
@@ -55,48 +53,54 @@ const Card9 = ({ issuer, fetchIssuers }) => {
   };
 
   return (
-    <div className="studentdetailscard bg-white shadow-md rounded-lg p-4 flex flex-col items-center text-center">
-      <div className="w-full font-semibold text-center py-3 px-5">
-        <h2 className="text-lg text-blue-700">
-          {issuer.student?.name || "Issuer Name"}
-        </h2>
-      </div>
-      <div className="w-full grid grid-cols-2">
-        <div className="px-2 py-1 text-start font-sans ">
-          {issuer.student?.enrollment}
+    <div className="studentdetailscard bg-white shadow-lg rounded-lg p-6 flex flex-col items-center text-center">
+      <h2 className="text-xl font-bold text-blue-700 mb-4">
+        {issuer.student?.name || "Issuer Name"}
+      </h2>
+      <div className="w-full grid grid-cols-2 gap-4">
+        <div className="flex flex-col">
+          <label className="text-sm font-semibold">Enrollment:</label>
+          <span>{issuer.student?.enrollment}</span>
         </div>
-        <div className="px-2 py-1 text-start font-sans ">
-          {issuer.className}
+        <div className="flex flex-col">
+          <label className="text-sm font-semibold">Class:</label>
+          <span>{issuer.className}</span>
         </div>
-        <div className="px-2 py-1 text-start font-sans ">
-          {issuer.book?.bookId}
+        <div className="flex flex-col">
+          <label className="text-sm font-semibold">Book ID:</label>
+          <span>{issuer.book?.bookId}</span>
         </div>
-        <div className="px-2 py-1 text-start font-sans ">
-          {issuer.book?.bookName}
+        <div className="flex flex-col">
+          <label className="text-sm font-semibold">Book Name:</label>
+          <span>{issuer.book?.bookName}</span>
         </div>
-        <div className="px-2 py-1 text-start font-sans ">
-          {new Date(issuer.issueDate).toLocaleDateString()}
+        <div className="flex flex-col">
+          <label className="text-sm font-semibold">Issue Date:</label>
+          <span>{new Date(issuer.issueDate).toLocaleDateString()}</span>
         </div>
-        <div className="px-2 py-1 text-start font-sans ">
-          {issuer.isReturned
-            ? "Submitted"
-            : new Date(issuer.submissionDate).toLocaleDateString()}
+        <div className="flex flex-col">
+          <label className="text-sm font-semibold">Submission Date:</label>
+          <span>
+            {issuer.isReturned
+              ? "Submitted"
+              : new Date(issuer.submissionDate).toLocaleDateString()}
+          </span>
         </div>
       </div>
 
-      <div className="flex items-center justify-between w-full mt-4 p-2">
+      <div className="flex items-center justify-between w-full mt-6">
         <button
           onClick={handleDelete}
-          className="bg-red-600 text-white px-4 py-1 rounded hover:bg-red-700"
+          className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
         >
-          <RiDeleteBin3Fill className=" text-xl" />
+          <RiDeleteBin3Fill className="text-xl" />
         </button>
         {!issuer.isReturned && (
           <button
             onClick={handleMarkSubmitted}
-            className="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700"
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
           >
-            Submitted
+            Mark as Submitted
           </button>
         )}
       </div>

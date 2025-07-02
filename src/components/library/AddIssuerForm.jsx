@@ -65,7 +65,7 @@ const AddIssuerForm = ({ fetchIssuers, closeModal }) => {
             type="text"
             name="enrollment"
             placeholder="Student Enrollment Number"
-            className="input input-bordered w-full"
+            className="input input-bordered w-full px-3 py-2 rounded"
             value={formData.studentEnrollment}
             onChange={handleChange}
             required
@@ -74,7 +74,7 @@ const AddIssuerForm = ({ fetchIssuers, closeModal }) => {
             type="text"
             name="bookId"
             placeholder="Book ID"
-            className="input input-bordered w-full"
+            className="input input-bordered w-full px-3 py-2 rounded"
             value={formData.bookId}
             onChange={handleChange}
             required
@@ -82,7 +82,7 @@ const AddIssuerForm = ({ fetchIssuers, closeModal }) => {
           <input
             type="date"
             name="submissionDate"
-            className="input input-bordered w-full"
+            className="input input-bordered w-full px-3 py-2 rounded"
             value={formData.submissionDate}
             onChange={handleChange}
             required

@@ -1,9 +1,12 @@
 // middlewares/verifyTeacherOrHODToken.js
 
-import verifyTeacherToken from './verifyTeacherToken.js';
-import verifyHODToken from './verifyHODToken.js';
+import verifyTeacherToken from "./verifyTeacherToken.js";
+import verifyHODToken from "./verifyHODToken.js";
 
 const verifyTeacherOrHODToken = async (req, res, next) => {
+  console.log("👮 Running verifyTeacherOrHODToken");
+  console.log("🔐 Authorization Header:", req.headers.authorization);
+
   try {
     // Try Teacher
     await verifyTeacherToken(req, res, async () => {
@@ -11,7 +14,7 @@ const verifyTeacherOrHODToken = async (req, res, next) => {
         // Keep existing key for old controllers
         req.user = {
           id: req.teacher._id.toString(),
-          username: req.teacher.name
+          username: req.teacher.name,
         };
         return next();
       }
@@ -22,20 +25,23 @@ const verifyTeacherOrHODToken = async (req, res, next) => {
           // Keep existing key for old controllers
           req.user = {
             id: req.hod._id.toString(),
-            username: req.hod.name
+            username: req.hod.name,
           };
           return next();
         }
 
         return res.status(403).json({
           success: false,
-          message: 'Not authorized. Only Teachers or HOD can perform this action.',
+          message:
+            "Not authorized. Only Teachers or HOD can perform this action.",
         });
       });
     });
   } catch (err) {
-    console.error('verifyTeacherOrHODToken Error:', err);
-    return res.status(500).json({ success: false, message: 'Internal server error' });
+    console.error("verifyTeacherOrHODToken Error:", err);
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal server error" });
   }
 };
 

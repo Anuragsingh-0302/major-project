@@ -40,7 +40,7 @@ const Events = () => {
 
   const handleShowParticipants = async (participants, eventId) => {
     setShowParticipantsForEventId(eventId);
-    setShowDialog(true); // Show dialog when participants are fetched
+    setShowDialog(true);
 
     try {
       const updatedParticipants = await Promise.all(
@@ -107,9 +107,8 @@ const Events = () => {
         </div>
 
         <div className="details w-full flex">
-          {/* Events Section */}
           <div className="w-full bg-slate-300 p-2 flex flex-col gap-2 items-center border-2 border-white">
-            <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-3 gap-2 w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 w-full">
               {events.map((event) => (
                 <Card4
                   key={event._id}
@@ -136,25 +135,38 @@ const Events = () => {
         {/* Participants Dialog */}
         {showDialog && (
           <div className="fixed inset-0 flex items-center backdrop-blur-md justify-center z-50">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 md:w-3/5">
-              <div className="flex justify-between items-center">
+            <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 md:w-3/5 max-h-[90vh] overflow-y-auto">
+              <div className="flex justify-between items-center  bg-white z-10 pb-2">
                 <h2 className="text-xl font-semibold">Participants</h2>
-                <button onClick={() => setShowDialog(false)} className="text-red-500 text-2xl">
+                <button
+                  onClick={() => setShowDialog(false)}
+                  className="text-red-500 text-2xl"
+                >
                   <FaDeleteLeft />
                 </button>
               </div>
-              <p className="mt-3"><b>Event ID: </b>{showParticipantsForEventId}</p>
-              <p className="mt-1">
-                <b>Event Title: </b>{events.find((e) => e._id === showParticipantsForEventId)?.title}
+              <p className="mt-3">
+                <b>Event ID: </b>
+                {showParticipantsForEventId}
               </p>
-              <div className="grid grid-cols-1 md:grid-cols-2  gap-4 mt-4">
+              <p className="mt-1">
+                <b>Event Title: </b>
+                {
+                  events.find((e) => e._id === showParticipantsForEventId)
+                    ?.title
+                }
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                 {selectedParticipants.map((participant) => (
                   <Card5
                     key={participant._id}
                     participant={participant}
                     userRole={user.role}
                     onDelete={() =>
-                      handleDeleteParticipant(participant, showParticipantsForEventId)
+                      handleDeleteParticipant(
+                        participant,
+                        showParticipantsForEventId
+                      )
                     }
                   />
                 ))}
@@ -165,9 +177,7 @@ const Events = () => {
 
         {showModal && (
           <CreateEventModal
-            setShowModal={setShowModal}
-            setEvents={setEvents}
-            user={user}
+            onClose={() => setShowModal(false)}
             onEventCreated={fetchEvents}
           />
         )}

@@ -90,7 +90,7 @@ const Library = () => {
 
       {/* Add Issuer Button (issuer view only) */}
       {view === "issuer" && (
-        <div className="fixed bottom-10 right-10 z-50">
+        <div className="fixed bottom-15 right-10 z-50">
           <button
             onClick={() => setShowIssuerModal(true)}
             className="bg-green-500 hover:bg-green-600 text-white hover:scale-105 px-4 py-2 rounded-lg flex items-center gap-2"

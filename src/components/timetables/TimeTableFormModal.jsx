@@ -2,14 +2,16 @@
 
 import React, { useState } from "react";
 
-const TimeTableFormModal = ({ onClose }) => {
-  const [formData, setFormData] = useState({
+const TimeTableFormModal = ({ onClose, onUpload }) => {
+  const initialState = {
     type: "",
     title: "",
     className: "",
     year: "",
     file: null,
-  });
+  };
+
+  const [formData, setFormData] = useState(initialState);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -34,7 +36,7 @@ const TimeTableFormModal = ({ onClose }) => {
     body.append("title", formData.title);
     body.append("className", formData.className);
     body.append("year", formData.year);
-    body.append("date", new Date()); // createdAt-like field
+    body.append("date", new Date());
     body.append("file", formData.file);
 
     try {
@@ -50,8 +52,9 @@ const TimeTableFormModal = ({ onClose }) => {
 
       if (result.success) {
         alert("Time table uploaded successfully");
-        onClose();
-        window.location.reload();
+        setFormData(initialState); // ✅ reset form
+        onUpload();                // ✅ notify parent to refresh
+        onClose();                 // ✅ close modal
       } else {
         alert("Upload failed: " + result.message);
       }
@@ -62,7 +65,7 @@ const TimeTableFormModal = ({ onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
+    <div className="fixed inset-0 backdrop-blur-sm flex justify-center items-center z-50">
       <div className="bg-white w-[90%] max-w-md p-6 rounded-xl shadow-lg">
         <h2 className="text-xl font-bold mb-4 text-center text-blue-800">
           Upload Time Table

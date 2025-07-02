@@ -27,6 +27,7 @@ import Notifications from "../notification/Notifications";
 import { motion } from "framer-motion";
 import { IoMdCloseCircle } from "react-icons/io";
 import { BsFillMenuButtonWideFill } from "react-icons/bs";
+import Notes from "../../pages/Notes";
 
 const Dashboard = () => {
   const [activeComponent, setActiveComponent] = useState("My Profile");
@@ -80,13 +81,53 @@ const Dashboard = () => {
   }, [navigate]);
 
   const sidebarOptions = {
-    student: ["My Profile","HOD Profile","Teachers Profile","My Mates","TimeTables","Events","About Depthub","Contact Us","Notifications",
+    student: [
+      "My Profile",
+      "HOD Profile",
+      "Teachers Profile",
+      "My Mates",
+      "TimeTables",
+      "Events",
+      "Notes",
+      "Notifications",
+      "About Depthub",
+      "Contact Us",
     ],
-    teacher: ["My Profile","HOD Profile","Students","Attendance","TimeTables","Events","Register New Student","About Depthub","Contact Us","Notifications",
+    teacher: [
+      "My Profile",
+      "HOD Profile",
+      "Students",
+      "Attendance",
+      "TimeTables",
+      "Events",
+      "Notes",
+      "Notifications",
+      "Register New Student",
+      "About Depthub",
+      "Contact Us",
     ],
-    hod: ["My Profile","Teachers Profile","Students","Attendance","TimeTables","Events","Register New Student","Register New Teacher","About Depthub","Notifications",
+    hod: [
+      "My Profile",
+      "Teachers Profile",
+      "Students",
+      "Attendance",
+      "TimeTables",
+      "Events",
+      "Notes",
+      "Notifications",
+      "Register New Student",
+      "Register New Teacher",
+      "About Depthub",
     ],
-    librarian: ["My Profile","HOD Profile","Teachers Profile","Students","Library","About Depthub","Contact Us","Notifications",
+    librarian: [
+      "My Profile",
+      "HOD Profile",
+      "Teachers Profile",
+      "Students",
+      "Library",
+      "Notifications",
+      "About Depthub",
+      "Contact Us",
     ],
   };
 
@@ -201,6 +242,7 @@ const Dashboard = () => {
           {activeComponent === "About Depthub" && <About />}
           {activeComponent === "Contact Us" && <ContactUs />}
           {activeComponent === "Notifications" && <Notifications />}
+          {activeComponent === "Notes" && <Notes />}
           {/* Mobile Menu Icon */}
         </motion.main>
       </div>

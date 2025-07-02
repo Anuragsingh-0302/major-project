@@ -11,7 +11,7 @@ import { motion } from "framer-motion";
 const TimeTables = () => {
   const [activeComponent, setActiveComponent] = useState("Class Time Tables");
   const [showModal, setShowModal] = useState(false);
-  const [refreshKey, setRefreshKey] = useState(0); // for triggering re-fetch
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -24,7 +24,7 @@ const TimeTables = () => {
   };
 
   const handleUpload = () => {
-    setRefreshKey((prev) => prev + 1); // change key to re-render
+    setRefreshKey((prev) => prev + 1); // Trigger refresh of table component
   };
 
   return (
@@ -39,6 +39,7 @@ const TimeTables = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
       >
+        {/* Navigation Tabs */}
         <div className="timetablesnav flex justify-between p-3 bg-slate-700 text-white">
           <div
             className={`text-center w-1/2 cursor-pointer border-r ${
@@ -58,7 +59,8 @@ const TimeTables = () => {
           </div>
         </div>
 
-        <div className="timetablesbody w-full  p-2">
+        {/* Table Display */}
+        <div className="timetablesbody w-full p-2">
           {activeComponent === "Class Time Tables" && (
             <ClassTimeTable key={refreshKey} />
           )}
@@ -67,6 +69,7 @@ const TimeTables = () => {
           )}
         </div>
 
+        {/* Upload Button for HOD only */}
         {user?.role === "hod" && (
           <div className="addtimetable fixed bottom-15 right-8">
             <button
@@ -78,6 +81,7 @@ const TimeTables = () => {
           </div>
         )}
 
+        {/* Modal */}
         {showModal && (
           <TimeTableFormModal
             onClose={() => setShowModal(false)}

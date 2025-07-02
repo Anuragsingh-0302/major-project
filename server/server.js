@@ -71,6 +71,7 @@ import issuedBookRoutes from "./routes/bookIssuedRoutes.js";
 import chatRoutes from "./routes/chatRoutes.js";
 import contactRoutes from "./routes/contactRoutes.js";
 import notificationRoutes from "./routes/notificationRoutes.js";
+import noteRoutes from "./routes/noteRoutes.js";
 
 
 app.use("/api/student", studentRoutes);
@@ -88,7 +89,7 @@ app.use("/api/library-issued", issuedBookRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/notifications", notificationRoutes);
-
+app.use("/api/notes", noteRoutes);
 
 
 // Error handler
