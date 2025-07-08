@@ -127,9 +127,16 @@ const ChatModal = ({ onClose, receiver, currentUser }) => {
             <h2 className="font-bold text-lg text-yellow-300">
               {receiver.name}{" "}
               <span className="text-gray-300 text-sm">
-                ( {receiver.role === "student" ? receiver.enrollment : receiver.teacherId} )
+                (
+                {receiver.enrollment
+                  ? receiver.enrollment
+                  : receiver.teacherId
+                  ? receiver.teacherId
+                  : receiver._id}
+                )
               </span>
             </h2>
+
             <button
               onClick={onClose}
               className="text-red-500 hover:text-red-500 text-2xl font-bold"

@@ -129,6 +129,8 @@ const ViewStudentProfile = ({ student, onClose, onStudentUpdated, onStudentDelet
 
             {/* Chat Modal */}
             {showChatModal && currentUser && (
+              <>
+              {console.log("Selected Student:", studentData)}
               <ChatModal
                 receiver={{
                   _id: studentData._id,
@@ -139,6 +141,7 @@ const ViewStudentProfile = ({ student, onClose, onStudentUpdated, onStudentDelet
                 currentUser={currentUser}
                 onClose={() => setShowChatModal(false)}
               />
+              </>
             )}
           </motion.div>
         </motion.div>
