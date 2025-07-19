@@ -1,13 +1,13 @@
-// src/components/Card1.jsx
+// src/components/cards/Card1.jsx
 
 import React, { useState, useEffect } from "react";
 import { HiChatBubbleLeftRight } from "react-icons/hi2";
-import defaultMale from "../images/male.png";
-import defaultFemale from "../images/female.png";
-import UpdateTeacherForm from "./UpdateTeacherForm";
+import defaultMale from "../../images/male.png";
+import defaultFemale from "../../images/female.png";
+import UpdateTeacherForm from "../UpdateTeacherForm";
 import Tilt from "react-parallax-tilt";
-import ChatModal from "./chat/ChatModal";
-import useUnreadStatus from "../hooks/useUnreadStatus";
+import ChatModal from "../chat/ChatModal";
+import useUnreadStatus from "../../hooks/useUnreadStatus";
 
 const Card1 = ({ user, fetchProfiles }) => {
   const [isHOD, setIsHOD] = useState(false);

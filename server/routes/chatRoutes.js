@@ -11,7 +11,8 @@ import {
   getMessages,
   deleteAllMessages,
   getUnreadMessages,
-  getUserConversations // ✅ NEW: for joining all rooms on login (optional)
+  getUserConversations, // ✅ NEW: for joining all rooms on login (optional)
+  getFullUserConversations, // ✅ NEW: for full MyChats info
 } from '../controllers/chatController.js';
 
 const router = express.Router();
@@ -47,5 +48,8 @@ router.get('/unread/:otherUserId', verifyUserToken, getUnreadMessages);
 
 // ✅ Optional: get all conversation IDs of current user (for socket room join)
 router.get('/my-conversations', verifyUserToken, getUserConversations); // [NEW route]
+
+// ✅ NEW: Get full conversation list with user info
+router.get('/my-full-conversations', verifyUserToken, getFullUserConversations);
 
 export default router;

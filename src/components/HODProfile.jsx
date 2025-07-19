@@ -1,7 +1,7 @@
 // src/components/HODProfile.jsx
 
 import React, { useEffect, useState } from "react";
-import Card2 from "./Card2";
+import Card2 from "./cards/Card2";
 import axios from "axios";
 import { Helmet } from "react-helmet";
 import { motion } from "framer-motion";

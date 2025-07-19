@@ -3,7 +3,7 @@
 // src/components/timetables/ExamTimeTable.jsx
 
 import React, { useEffect, useState } from "react";
-import Card6 from "../Card6";
+import Card6 from "../cards/Card6";
 
 const ExamTimeTable = () => {
   const [examTimetables, setExamTimetables] = useState([]);

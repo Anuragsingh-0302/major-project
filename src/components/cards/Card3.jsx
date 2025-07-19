@@ -1,14 +1,12 @@
-// src/components/Card3.jsx
-
-// src/components/Card3.jsx
+// src/components/cards/Card3.jsx
 
 import React, { useState, useEffect } from "react";
 import { HiChatBubbleLeftRight } from "react-icons/hi2";
-import defaultMale from "../images/male.png";
-import defaultFemale from "../images/female.png";
-import ChatModal from "./chat/ChatModal";
+import defaultMale from "../../images/male.png";
+import defaultFemale from "../../images/female.png";
+import ChatModal from "../chat/ChatModal";
 import Tilt from "react-parallax-tilt";
-import useUnreadStatus from "../hooks/useUnreadStatus";
+import useUnreadStatus from "../../hooks/useUnreadStatus";
 
 const Card3 = ({ user }) => {
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -32,7 +30,7 @@ const Card3 = ({ user }) => {
 
   return (
     <>
-      <div className="myMates p-3 rounded-xl flex sm:flex-row flex-col justify-center w-full min-h-[100px] transition-all border-2 border-white duration-300 bg-slate-600">
+      <div className="myMates p-3 rounded-xl flex sm:flex-row flex-col justify-center w-full min-h-[100px] transition-all border-2 bg-white duration-300 bg">
         {/* Profile */}
         <div className="profile flex flex-col justify-center items-center gap-2 w-full sm:w-1/4 mb-2">
           <Tilt
@@ -50,7 +48,7 @@ const Card3 = ({ user }) => {
         </div>
 
         {/* Details */}
-        <div className="details text-white border-x-0 sm:border-x-4 border-y-4 md:border-y-0 border-slate-400 text-lg py-2 px-3 flex flex-col justify-start items-center gap-2 w-full sm:w-2/4">
+        <div className="details border-x-0 sm:border-x-4 border-y-4 sm:border-y-0 border-slate-400 text-lg py-2 px-3 flex flex-col justify-start items-center gap-2 w-full sm:w-2/4">
           <div className="name">{user.name || "N/A"}</div>
           <div className="class text-sm font-mono">{user.class || "N/A"}</div>
           <div className="enrollment text-sm font-mono">{user.enrollment || "N/A"}</div>

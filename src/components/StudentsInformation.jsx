@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Card7 from "./Card7";
+import Card7 from "./cards/Card7";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet";
 

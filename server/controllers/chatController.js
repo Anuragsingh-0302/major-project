@@ -3,6 +3,8 @@
 import Conversation from "../models/chat/Conversation.js";
 import Message from "../models/chat/ChatMessage.js";
 import { getIO } from "../socket.js"; // ✅ import io instance
+import StudentInfo from "../models/StudentInfo.js";
+import TeacherInfo from "../models/TeacherInfo.js";
 
 // ✅ Create or Get Conversation
 export const getOrCreateConversation = async (req, res) => {
@@ -155,25 +157,81 @@ export const getUnreadMessages = async (req, res) => {
 };
 
 // ✅ Get All Conversations for joining rooms
+// ✅ Replace existing getUserConversations with this:
 export const getUserConversations = async (req, res) => {
   try {
     const { id: userId, role } = req.user;
 
     const conversations = await Conversation.find({
-      participants: {
-        $elemMatch: {
-          user: userId,
-          role,
-        },
-      },
-    });
+      participants: { $elemMatch: { user: userId, role } },
+    }).populate("participants.user");
 
     res.status(200).json({
       success: true,
-      conversationIds: conversations.map((c) => c._id),
+      conversations, // ✅ instead of conversationIds
     });
   } catch (err) {
     console.error("GetUserConversations error:", err);
     res.status(500).json({ message: "Failed to fetch conversations" });
   }
 };
+
+
+
+// ✅ NEW: Get Full User Conversations (for MyChats)
+export const getFullUserConversations = async (req, res) => {
+  try {
+    const { id: userId, role } = req.user;
+
+    const conversations = await Conversation.find({
+      participants: {
+        $elemMatch: { user: userId, role },
+      },
+    }).sort({ updatedAt: -1 });
+
+    const results = [];
+
+    for (const convo of conversations) {
+      const otherParticipant = convo.participants.find(
+        (p) => p.user.toString() !== userId
+      );
+
+      if (!otherParticipant) continue;
+
+      let userData;
+      if (otherParticipant.role === "StudentInfo") {
+        const student = await StudentInfo.findById(otherParticipant.user);
+        if (!student) continue;
+        userData = {
+          _id: student._id,
+          name: student.name,
+          profileImage: student.profileImage,
+          role: "student",
+          enrollment: student.enrollment,
+        };
+      } else if (otherParticipant.role === "TeacherInfo") {
+        const teacher = await TeacherInfo.findById(otherParticipant.user);
+        if (!teacher) continue;
+        userData = {
+          _id: teacher._id,
+          name: teacher.name,
+          profileImage: teacher.profileImage,
+          role: teacher.role,
+          teacherId: teacher.teacherId,
+        };
+      }
+
+      results.push({
+        conversationId: convo._id,
+        participant: userData,
+        updatedAt: convo.updatedAt,
+      });
+    }
+
+    res.status(200).json({ success: true, conversations: results });
+  } catch (err) {
+    console.error("MyConversations Error:", err);
+    res.status(500).json({ message: "Failed to get conversation list" });
+  }
+};
+

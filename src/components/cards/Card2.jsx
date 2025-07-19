@@ -1,14 +1,12 @@
-// src/components/Card2.jsx
-
-// src/components/Card2.jsx
+// src/components/cards/Card2.jsx
 
 import React, { useState, useEffect } from "react";
-import defaultMale from "../images/male.png";
-import defaultFemale from "../images/female.png";
+import defaultMale from "../../images/male.png";
+import defaultFemale from "../../images/female.png";
 import { HiChatBubbleLeftRight } from "react-icons/hi2";
 import Tilt from "react-parallax-tilt";
-import ChatModal from "./chat/ChatModal";
-import useUnreadStatus from "../hooks/useUnreadStatus";
+import ChatModal from "../chat/ChatModal";
+import useUnreadStatus from "../../hooks/useUnreadStatus";
 
 const Card2 = ({ user }) => {
   const [showChatModal, setShowChatModal] = useState(false);

@@ -1,7 +1,7 @@
 // src/components/MyMates.jsx
 
 import React, { useEffect, useState } from "react";
-import Card3 from "./Card3";
+import Card3 from "./cards/Card3";
 import axios from "axios";
 import { Helmet } from "react-helmet";
 import { motion } from "framer-motion";
@@ -34,7 +34,7 @@ const MyMates = () => {
       </Helmet>
 
       <motion.div
-        className="myMates grid grid-cols-1 md:grid-cols-2 bg-slate-300 p-2 gap-3"
+        className="myMates grid grid-cols-1 xl:grid-cols-2 bg-slate-300 p-2 gap-3"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}

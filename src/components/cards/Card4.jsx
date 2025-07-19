@@ -1,8 +1,8 @@
-// src/components/Card4.jsx
+// src/components/cards/Card4.jsx
 
 import React, { useState } from "react";
 import axios from "axios";
-import { showError, showSuccess } from "../utils/toastUtils";
+import { showError, showSuccess } from "../../utils/toastUtils";
 import { RiDeleteBin3Fill } from "react-icons/ri";
 
 const Card4 = ({ event, user, onShowParticipants, onEventUpdated }) => {

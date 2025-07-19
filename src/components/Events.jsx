@@ -1,8 +1,8 @@
 // src/components/Events.jsx
 
 import React, { useEffect, useState } from "react";
-import Card4 from "./Card4";
-import Card5 from "./Card5";
+import Card4 from "./cards/Card4";
+import Card5 from "./cards/Card5";
 import CreateEventModal from "./CreateEventModal";
 import axios from "axios";
 import { Helmet } from "react-helmet";

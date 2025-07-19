@@ -3,11 +3,11 @@
 import React, { useState, useEffect } from "react";
 import { MdVerifiedUser } from "react-icons/md";
 import { useSelector, useDispatch } from "react-redux";
-import { updateProfile } from "../redux/auth/authSlice";
-import defaultMale from "../images/male.png";
-import defaultFemale from "../images/female.png";
+import { updateProfile } from "../../redux/auth/authSlice";
+import defaultMale from "../../images/male.png";
+import defaultFemale from "../../images/female.png";
 import axios from "axios";
-import { showSuccess, showError } from "../utils/toastUtils";
+import { showSuccess, showError } from "../../utils/toastUtils";
 import Tilt from "react-parallax-tilt";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet";

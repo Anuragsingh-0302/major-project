@@ -9,7 +9,7 @@ import { TbLogout } from "react-icons/tb";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/auth/authSlice";
 import { useNavigate } from "react-router-dom";
-import MyProfile from "../Myprofile";
+import MyProfile from "../profile/MyProfile";
 import TeachersProfile from "../TeachersProfile";
 import HODProfile from "../HODProfile";
 import MyMates from "../MyMates";
@@ -28,6 +28,7 @@ import { motion } from "framer-motion";
 import { IoMdCloseCircle } from "react-icons/io";
 import { BsFillMenuButtonWideFill } from "react-icons/bs";
 import Notes from "../../pages/Notes";
+import MyConversations from "../chat/MyConversations";
 
 const Dashboard = () => {
   const [activeComponent, setActiveComponent] = useState("My Profile");
@@ -83,6 +84,7 @@ const Dashboard = () => {
   const sidebarOptions = {
     student: [
       "My Profile",
+      "My Chats",
       "HOD Profile",
       "Teachers Profile",
       "My Mates",
@@ -95,6 +97,7 @@ const Dashboard = () => {
     ],
     teacher: [
       "My Profile",
+      "My Chats",
       "HOD Profile",
       "Students",
       "Attendance",
@@ -108,6 +111,7 @@ const Dashboard = () => {
     ],
     hod: [
       "My Profile",
+      "My Chats",
       "Teachers Profile",
       "Students",
       "Attendance",
@@ -121,6 +125,7 @@ const Dashboard = () => {
     ],
     librarian: [
       "My Profile",
+      "My Chats",
       "HOD Profile",
       "Teachers Profile",
       "Students",
@@ -152,7 +157,7 @@ const Dashboard = () => {
             animate={{ x: 0 }}
             exit={{ x: -300 }}
             transition={{ duration: 0.5 }}
-            className={`bg-slate-700 text-white shadow-lg border-r flex flex-col items-center py-[50px] pb-[120px] md:py-6 overflow-y-auto z-30 md:static absolute top-0 left-0 h-[110vh] md:h-[calc(100vh-112px)] ${
+            className={`bg-slate-800 text-white shadow-lg border-r flex flex-col items-center py-[50px] pb-[120px] md:py-6 overflow-y-auto z-30 md:static absolute top-0 left-0 h-[110vh] md:h-[calc(100vh-112px)] ${
               isMobile ? "w-[80vw]" : "w-75"
             }`}
           >
@@ -192,7 +197,7 @@ const Dashboard = () => {
               </div>
             )}
 
-            <div className="w-full px-4 mt-auto" onClick={handleLogout}>
+            <div className="w-full px-4 mt-auto mb-5 md:mb-0" onClick={handleLogout}>
               <div className="flex items-center justify-between text-red-600 font-semibold py-3 px-4 rounded-lg hover:bg-red-50 cursor-pointer border border-red-200 transition-all">
                 <span>Logout</span>
                 <TbLogout size={20} />
@@ -243,6 +248,7 @@ const Dashboard = () => {
           {activeComponent === "Contact Us" && <ContactUs />}
           {activeComponent === "Notifications" && <Notifications />}
           {activeComponent === "Notes" && <Notes />}
+          {activeComponent === "My Chats" && <MyConversations />}
           {/* Mobile Menu Icon */}
         </motion.main>
       </div>

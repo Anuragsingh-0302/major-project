@@ -1,11 +1,9 @@
-// src/components/Card7.jsx
-
-// src/components/Card7.jsx
+// src/components/cards/Card7.jsx
 
 import React, { useState } from "react";
-import ViewStudentProfile from "./ViewStudentProfile";
-import defaultMale from "../images/male.png";
-import defaultFemale from "../images/female.png";
+import ViewStudentProfile from "../ViewStudentProfile";
+import defaultMale from "../../images/male.png";
+import defaultFemale from "../../images/female.png";
 
 const Card7 = ({ student, onStudentUpdated, onStudentDeleted }) => {
   const [showProfile, setShowProfile] = useState(false);

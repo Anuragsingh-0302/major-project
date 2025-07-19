@@ -1,10 +1,10 @@
-// src/components/Card5.jsx
+// src/components/cards/Card5.jsx
 
 import React from "react";
 import { FaTrashAlt } from "react-icons/fa";
 import { motion } from "framer-motion";
-import defaultMale from "../images/male.png";
-import defaultFemale from "../images/female.png";
+import defaultMale from "../../images/male.png";
+import defaultFemale from "../../images/female.png";
 
 const Card5 = ({ participant, userRole, onDelete }) => {
   const imageUrl = participant.profileImage

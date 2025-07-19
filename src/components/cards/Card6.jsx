@@ -1,9 +1,9 @@
-// src/components/Card6.jsx
+// src/components/cards/Card6.jsx
 
 import React from "react";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { ImDownload } from "react-icons/im";
-import { showSuccess , showError } from "../utils/toastUtils";
+import { showSuccess , showError } from "../../utils/toastUtils";
 
 const Card6 = ({ data, isHOD }) => {
   const handleDownload = () => {

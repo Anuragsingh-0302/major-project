@@ -1,9 +1,8 @@
 // src/components/timetables/ClassTimeTable.jsx
 
-// src/components/timetables/ClassTimeTable.jsx
 
 import React, { useEffect, useState } from "react";
-import Card6 from "../Card6";
+import Card6 from "../cards/Card6";
 
 const ClassTimeTable = () => {
   const [classTimetables, setClassTimetables] = useState([]);

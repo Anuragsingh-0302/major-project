@@ -1,7 +1,5 @@
 // src/components/chat/ChatModal.jsx
 
-// src/components/chat/ChatModal.jsx
-
 import React, { useEffect, useRef, useState } from "react";
 import { RiSendPlaneFill } from "react-icons/ri";
 import { MdPermMedia } from "react-icons/md";
